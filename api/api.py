@@ -44,6 +44,18 @@ def create_product():
     cur.close()
     return "Product Added"
 
+@app.route('/api/products/update/<int:id>', methods=['PUT'])
+def update_product(id):
+    name = request.form.get('name')
+    description = request.form.get('description')
+    brand = request.form.get('brand')
+
+    cur = con.cursor()
+    cur.execute(f"UPDATE products SET name = %s, description = %s, brand = %s WHERE id = {id}", (name, description, brand))
+    con.commit()
+    cur.close()
+    return "Product Updated"
+    
 @app.route('/api/products/delete/<int:id>', methods=['DELETE'])
 def delete_product(id):
     cur = con.cursor()
